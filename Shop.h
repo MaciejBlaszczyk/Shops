@@ -6,14 +6,14 @@
 class Shop
 {
 public:
-	Shop(string name = "Unnamed Shop") : shop_address(name) { }
+	Shop(string name = "Unnamed Shop") : shopAddress(name) { }
 
-	string get_name() { return shop_address; }
-	void add_toy();
+	string getName() { return shopAddress; }
+	void addToy();
 
 	friend ostream &operator<<(ostream &os, Shop &temp);
 private:
-	string shop_address;
+	string shopAddress;
 	Vector <Toy> toys;
 };
 
