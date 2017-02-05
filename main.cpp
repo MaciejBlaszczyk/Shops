@@ -5,9 +5,12 @@
 Vector <Company> companyList;
 
 void addCompany();
-void showEverything();
 void addShop();
 void addToy();
+void showEverything();
+void deleteCompany();
+void deleteShop();
+void deleteToy();
 
 int main()
 {
@@ -16,24 +19,33 @@ int main()
 		int numb;
 		system("cls");
 		cout<<"Welcome to Toy Shop !\n\n"
-			<<"If you want to add a company, press 2\n"
-			<<"If you want to add a shop, press 3\n"
-			<<"If you want to add a toy, press 4\n"
-			<<"If you want to show companies, shops, toys and prices, press 5\n"
-			<<"If you want to exit, press 6\n";
+			<<"If you want to add a company, press 1\n"
+			<<"If you want to add a shop, press 2\n"
+			<<"If you want to add a toy, press 3\n"
+			<<"If you want to delete a company, press 4\n"
+			<<"If you want to delete a shop, press 5\n"
+			<<"If you want to delete a toy, press 6\n"
+			<<"If you want to show companies, shops, toys and prices, press 7\n"
+			<<"If you want to exit, press 8\n";
 
 		cin>>numb;
 		switch(numb)
 		{
-			case 2 : addCompany();
+			case 1 : addCompany();
 			break;
-			case 3 : addShop();
+			case 2 : addShop();
 			break;
-			case 4 : addToy();
+			case 3 : addToy();
 			break;
-			case 5 : showEverything();
+			case 4 : deleteCompany();
 			break;
-			case 6 : return 1;
+			case 5 : deleteShop();
+			break;
+			case 6 : deleteToy();
+			break;
+			case 7 : showEverything();
+			break;
+			case 8 : return 1;
 
 			default : cout<<"Enter other number"<<endl;
 			break;

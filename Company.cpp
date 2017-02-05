@@ -1,10 +1,16 @@
 #include "Company.h"
-#include<sstream> //for str()
-#include<conio.h>  //for getch()
-
-string to_string(int value) { ostringstream os; os<<value; return os.str(); } //int to string function
+#include<sstream>
+#include<conio.h>
 
 extern Vector <Company> companyList;
+
+//helpful int to string function
+string to_string(int value)
+{
+	ostringstream os;
+	os<<value;
+	return os.str();
+}
 
 ostream &operator<<(ostream &os, Company &temp)
 {
