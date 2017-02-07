@@ -1,20 +1,35 @@
 #include "Company.h"
-#include<sstream>
-#include<conio.h>
+#include<sstream> //for str()
+#include<conio.h>  //for getch()
 
-extern Vector <Company> companyList;
+string to_string(int value) { ostringstream os; os<<value; return os.str(); } //int to string function
 
-//helpful int to string function
-string to_string(int value)
+extern Vector <Company> company_list;
+
+ifstream &operator>>(ifstream &is, Company &temp)
 {
-	ostringstream os;
-	os<<value;
-	return os.str();
+	string name, address;
+	int number;
+
+	is>>name>>address>>number;
+	temp.company_name = name;
+	address += " " + to_string(number);
+
+	temp.shops.push_last(Shop(address));
+
+    Iterator<Company, Vector<Company>> it = company_list.Begin();
+	for(; (*it).get_name() != temp.get_name() && it != company_list.End(); it++);
+	if(it == company_list.End())
+		company_list.push_last(temp);
+	else
+		(*it).shops.push_last(temp.shops[0]);
+
+	return is;
 }
 
 ostream &operator<<(ostream &os, Company &temp)
 {
-	cout<<"Company Name: "<<temp.companyName<<endl;
+	cout<<"Company Name: "<<temp.company_name<<endl;
 
 	for(Iterator <Shop, Vector<Shop>> it = temp.shops.Begin(); it != temp.shops.End(); it++)
 		os<<(*it);
@@ -22,27 +37,27 @@ ostream &operator<<(ostream &os, Company &temp)
 	return os;
 }
 
-void Company:: addShop()
+void Company::add_shop()
 {
-	 string shopAddress;
+	 string shop_address;
 	 int number;
 	 cout<<"Enter shop address: ";
-	 cin>>shopAddress>>number;
+	 cin>>shop_address>>number;
 
-	 shops.pushBack(Shop(shopAddress + " " + to_string(number)));
+	 shops.push_last(Shop(shop_address + " " + to_string(number)));
 }
 
-void Company:: addToy()
+void Company::add_toy()
 {
-	string shopName;
+	string shop_name;
 	int number;
 	cout<<"To what shop do you want to add a toy?"<<endl;
-	cin>>shopName>>number;
-	shopName += " " + to_string(number);
+	cin>>shop_name>>number;
+	shop_name += " " + to_string(number);
 
 	Iterator<Shop, Vector<Shop>> it = shops.Begin();
-	for(; (*it).getName() != shopName && it != shops.End(); it++)
-		cout<<shopName<<" compare "<<(*it).getName()<<endl;
+	for(; (*it).get_name() != shop_name && it != shops.End(); it++)
+		cout<<shop_name<<" compare "<<(*it).get_name()<<endl;
 	if(it == shops.End())
 	{
 		cout<<"Wrong shop's name"<<endl;
@@ -51,5 +66,5 @@ void Company:: addToy()
 		return;
 	}
 
-	(*it).addToy();
+	(*it).add_toy();
 }

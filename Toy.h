@@ -6,13 +6,12 @@
 class Toy
 {
 public:
-	Toy(string toyName = "Unnamed Toy", double toyPrice = 0) : toyName(toyName), toyPrice(toyPrice) { }
+	Toy(string toy_name = "Unnamed Toy", double toy_price = 0) : toy_name(toy_name), toy_price(toy_price) { }
 
-	friend ostream &operator<<(ostream &os, Toy &temp) { cout<<"Toy: "<<temp.toyName<<"  Price: "<<temp.toyPrice<<endl; return os; }
-
+	friend ostream &operator<<(ostream &os, Toy &temp) { cout<<"Toy: "<<temp.toy_name<<"  Price: "<<temp.toy_price<<endl; return os; }
 private:
-	string toyName;
-	double toyPrice;
+	string toy_name;
+	double toy_price;
 };
 
 #endif // TOY

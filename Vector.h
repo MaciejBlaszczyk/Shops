@@ -1,118 +1,120 @@
-#ifndef VECTOR
-#define VECTOR
-#include<iostream>
+#ifndef WEKTOR
+#define WEKTOR
+
 #include<stdexcept>
+#include<exception>
+#include<iostream>
+#include<fstream>
 
 using namespace std;
 
-template <typename T, typename container>
+template <typename type, typename container>
 class Iterator;
 
-template <typename T>
+template <typename type>
 class Vector
 {
 public:
-	Vector(int vectorCapacity = 5);
+	Vector(int capacity_of_vector = 5);
 	Vector(const Vector &specimen);
-	virtual ~Vector() { delete []vectorPointer; }
+	virtual ~Vector() { delete []vector_pointer; }
 
-	void insert(T element, int position);
-	void remove(int position);
-	void clear() { size = 0; }
-	int getSize() { return size; }
-	void pushBack(T element) { insert(element, size); }
-	void popBack() { remove(size - 1); }
+	void insert_element(type element, int position);
+	void delete_element(int position);
+	void empty_vector() { vector_size = 0; }
+	int get_size() { return vector_size; }
+	void push_last(type element) { insert_element(element, vector_size); }
+	void pop_last() { delete_element(vector_size - 1); }
 
-	T &operator[](int position) const;
+	type &operator[](int position) const;
     Vector &operator=(const Vector &specimen);
 
-    //typedef class Iterator<T> iterator;
-    Iterator<T, Vector<T>> Begin() { return Iterator<T, Vector<T>>(*this); }
-	Iterator<T, Vector<T>> End() { return Iterator<T, Vector<T>>(*this) + size; }
+    Iterator<type, Vector<type>> Begin() { return Iterator<type, Vector<type>>(*this); }
+	Iterator<type, Vector<type>> End() { return Iterator<type, Vector<type>>(*this) + vector_size; }
 
 private:
-	T *vectorPointer;
-	int size;
-	int capacity;
-	void changeSize();
+	type *vector_pointer;
+	int vector_size;
+	int vector_capacity;
+	void change_size();
 };
 
 
-template <typename T>
-Vector<T>:: Vector(int vectorCapacity): size(0), capacity(vectorCapacity)
+template <typename type>
+Vector <type>::Vector(int capacity_of_vector): vector_size(0), vector_capacity(capacity_of_vector)
 {
-	vectorPointer = new T[capacity];
+	vector_pointer = new type[vector_capacity];
 }
 
-template <typename T>
-Vector<T>:: Vector(const Vector <T> &specimen)
+template <typename type>
+Vector <type>::Vector(const Vector <type> &specimen)
 {
-	size = specimen.size;
-	capacity = specimen.capacity;
-	vectorPointer = new T[capacity];
-	for(int i = 0; i < size; i++)
-		*(vectorPointer + i) = *(specimen.vectorPointer + i);
+	vector_size = specimen.vector_size;
+	vector_capacity = specimen.vector_capacity;
+	vector_pointer = new type[vector_capacity];
+	for(int i = 0; i < vector_size; i++)
+		*(vector_pointer + i) = *(specimen.vector_pointer + i);
 }
 
-template <typename T>
-void Vector<T>:: changeSize()
+template <typename type>
+void Vector <type>::change_size()
 {
-	capacity += 5;
-	T *temp = new T[capacity];
-	for(int i = 0; i < size; i++)
-		*(temp + i) = *(vectorPointer + i)  ;
-	delete []vectorPointer;
-	vectorPointer = temp;
+	vector_capacity += 5;
+	type *temp = new type[vector_capacity];
+	for(int i = 0; i < vector_size; i++)
+		*(temp + i) = *(vector_pointer + i)  ;
+	delete []vector_pointer;
+	vector_pointer = temp;
 }
 
-template <typename T>
-void Vector<T>:: insert(T element, int position)
+template <typename type>
+void Vector <type>::insert_element(type element, int position)
 {
-	if(position > size)
+	if(position > vector_size)
 		throw out_of_range("Inserting out of size");
 
-	if(size >= capacity - 1) // -1 because one free place in the back should be alwyas free
-		changeSize();
+	if(vector_size >= vector_capacity - 1) // -1 because one free place in the back should be alwyas free
+		change_size();
 
-	T *temp = new T[capacity];
+	type *temp = new type[vector_capacity];
 	for(int i = 0; i < position; i++)
-		*(temp + i) = *(vectorPointer + i);
+		*(temp + i) = *(vector_pointer + i);
 	temp[position] = element;
-	for(int i = position + 1; i < size; i++)
-		*(temp + i) = *(vectorPointer + i);
-	delete []vectorPointer;
-	vectorPointer = temp;
-	size++;
+	for(int i = position + 1; i < vector_size; i++)
+		*(temp + i) = *(vector_pointer + i);
+	delete []vector_pointer;
+	vector_pointer = temp;
+	vector_size++;
 }
 
-template <typename T>
-void Vector<T>:: remove(int position)
+template <typename type>
+void Vector <type>::delete_element(int position)
 {
-	for(int i = position; i < size; i++)
-		*(vectorPointer + i) = *(vectorPointer + i + 1);
-	size--;
+	for(int i = position; i < vector_size; i++)
+		*(vector_pointer + i) = *(vector_pointer + i + 1);
+	vector_size--;
 }
 
-template <typename T>
-T &Vector<T>:: operator[](int position) const
+template <typename type>
+type &Vector <type>::operator[](int position) const
 {
-	if(position > size)
+	if(position > vector_size)
 		throw out_of_range("Operation out of size");
-	return vectorPointer[position];
+	return vector_pointer[position];
 }
 
-template <typename T>
-Vector<T> &Vector<T>:: operator=(const Vector <T> &specimen)
+template <typename type>
+Vector <type> &Vector <type>::operator=(const Vector <type> &specimen)
 {
-	if(vectorPointer == specimen.vectorPointer)
+	if(vector_pointer == specimen.vector_pointer)
 		return *this;
 
-	delete []vectorPointer;
-	vectorPointer = new T[specimen.capacity];
-	for(int i = 0; i < specimen.size; i++)
-		vectorPointer[i] = specimen.vectorPointer[i];
-	size = specimen.size;
-	capacity = specimen.capacity;
+	delete []vector_pointer;
+	vector_pointer = new type[specimen.vector_capacity];
+	for(int i = 0; i < specimen.vector_size; i++)
+		vector_pointer[i] = specimen.vector_pointer[i];
+	vector_size = specimen.vector_size;
+	vector_capacity = specimen.vector_capacity;
 
 	return *this ;
 }

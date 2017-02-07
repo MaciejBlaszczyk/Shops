@@ -6,16 +6,17 @@
 class Company
 {
 public:
-	Company(string name = "Unnamed Company") : companyName(name) { }
+	Company(string name = "Unnamed Company") : company_name(name) { }
 
-	string getName() { return companyName; }
-	void addShop();
-	void addToy();
+	string get_name() { return company_name; }
+	void add_shop();
+	void add_toy();
 
+	friend ifstream &operator>>(ifstream &is, Company &temp);
 	friend ostream &operator<<(ostream &os, Company &temp);
 
 private:
-	string companyName;
+	string company_name;
 	Vector <Shop> shops;
 };
 

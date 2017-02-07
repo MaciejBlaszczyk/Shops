@@ -1,88 +1,106 @@
 #include "Company.h"
-#include<windows.h>
-#include<conio.h>
+#include<windows.h> //for system("cls")
+#include<conio.h> //for getch()
 
-Vector <Company> companyList;
+Vector <Company> company_list;
 
-void addCompany();
-void addShop();
-void addToy();
-void showEverything();
-void deleteCompany();
-void deleteShop();
-void deleteToy();
+void read_shops_from_file();
+void add_company();
+void show_everything();
+void add_shop();
+void add_toy();
 
 int main()
 {
 	while(1)
 	{
-		int numb;
-		system("cls");
-		cout<<"Welcome to Toy Shop !\n\n"
-			<<"If you want to add a company, press 1\n"
-			<<"If you want to add a shop, press 2\n"
-			<<"If you want to add a toy, press 3\n"
-			<<"If you want to delete a company, press 4\n"
-			<<"If you want to delete a shop, press 5\n"
-			<<"If you want to delete a toy, press 6\n"
-			<<"If you want to show companies, shops, toys and prices, press 7\n"
-			<<"If you want to exit, press 8\n";
-
-		cin>>numb;
-		switch(numb)
+		try
 		{
-			case 1 : addCompany();
-			break;
-			case 2 : addShop();
-			break;
-			case 3 : addToy();
-			break;
-			case 4 : deleteCompany();
-			break;
-			case 5 : deleteShop();
-			break;
-			case 6 : deleteToy();
-			break;
-			case 7 : showEverything();
-			break;
-			case 8 : return 1;
+			int numb;
+			system("cls");
+			cout<<"Welcome to Toy Shop !\n\n"
+				<<"If you want to read Companies and their shops from file , press 1\n"
+				<<"If you want to add a company, press 2\n"
+				<<"If you want to add a shop, press 3\n"
+				<<"If you want to add a toy, press 4\n"
+				<<"If you want to show companies, shops, toys and prices, press 5\n"
+				<<"If you want to exit, press 6\n";
 
-			default : cout<<"Enter other number"<<endl;
-			break;
+			cin>>numb;
+			switch(numb)
+			{
+				case 1 : read_shops_from_file();
+				break;
+                case 2 : add_company();
+				break;
+				case 3 : add_shop();
+				break;
+				case 4 : add_toy();
+				break;
+				case 5 : show_everything();
+				break;
+				case 6 : return 1;
+
+				default : cout<<"Enter other number"<<endl;
+				break;
+			}
+		}
+		catch (const out_of_range& oor)
+		{
+			cerr<<"Out of Range error: "<<oor.what()<<endl;
 		}
 	}
 	return 0;
 }
 
-void addCompany()
+void read_shops_from_file()
 {
-	string companyName;
-	cout<<"Enter company's name: ";
-	cin>>companyName;
-	companyList.pushBack(Company(companyName));
+	ifstream file;
+	string name = "dane.txt" ;
+	file.open(name.c_str());
+
+	if(!file.is_open())
+	cout<<"Bad file reading"<<endl;
+
+	while(file.good())
+	{
+		Company temp;
+		file>>temp;
+	}
 
 	cout<<"Press any key to continue..."<<endl;
 	getch();
 }
 
-void showEverything()
+void add_company()
 {
-	for(Iterator <Company, Vector<Company>> it = companyList.Begin(); it != companyList.End(); it++)
+	string company_name;
+	cout<<"Enter company's name: ";
+	cin>>company_name;
+	company_list.push_last(Company(company_name));
+
+	cout<<"Press any key to continue..."<<endl;
+	getch();
+}
+
+void show_everything()
+{
+	for(Iterator <Company, Vector<Company>> it = company_list.Begin(); it != company_list.End(); it++)
 		cout<<(*it)<<endl;
 
 	cout<<endl<<"Press any key to continue..."<<endl;
 	getch();
 }
 
-void addShop()
+void add_shop()
 {
-	string companyName, shopName;
+	string company_name, shop_name;
 	cout<<"To what company do you want to add a shop?"<<endl;
-	cin>>companyName;
+	cin>>company_name;
 
-	Iterator<Company, Vector<Company>> it = companyList.Begin();
-	for(; (*it).getName() != companyName && it != companyList.End(); it++);
-	if(it == companyList.End())
+	Iterator<Company, Vector<Company>> it = company_list.Begin();
+	for(; (*it).get_name() != company_name && it != company_list.End(); it++);
+	if(it == company_list.End())
 	{
 		cout<<"Wrong company's name"<<endl;
 		cout<<"Press any key to continue..."<<endl;
@@ -90,21 +108,21 @@ void addShop()
 		return;
 	}
 
-	(*it).addShop();
+	(*it).add_shop();
 
 	cout<<"Press any key to continue..."<<endl;
 	getch();
 }
 
-void addToy()
+void add_toy()
 {
-	string companyName;
+	string company_name;
 	cout<<"To what company do you want to add a toy?"<<endl;
-	cin>>companyName;
+	cin>>company_name;
 
-	Iterator<Company, Vector<Company>> it = companyList.Begin();
-	for(; (*it).getName() != companyName && it != companyList.End(); it++);
-	if(it == companyList.End())
+	Iterator<Company, Vector<Company>> it = company_list.Begin();
+	for(; (*it).get_name() != company_name && it != company_list.End(); it++);
+	if(it == company_list.End())
 	{
 		cout<<"Wrong company's name"<<endl;
 		cout<<"Press any key to continue..."<<endl;
@@ -112,7 +130,7 @@ void addToy()
 		return;
 	}
 
-	(*it).addToy();
+	(*it).add_toy();
 
 	cout<<"Press any key to continue..."<<endl;
 	getch();
