@@ -1,2 +1,4 @@
-# Vector-Iterator-and-Shops
-Vector and iterator classes and its usage in managing toys in shops
+# Shops
+12.2016
+Vector and iterator implemented.
+
