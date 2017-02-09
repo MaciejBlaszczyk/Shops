@@ -1,4 +1,5 @@
 # Shops
-12.2016
-Vector and iterator implemented.
+Written : 12.2016
+Language: C++
+
 
